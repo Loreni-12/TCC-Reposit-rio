@@ -17,6 +17,10 @@ const MENSAGENS: Record<string, string> = {
 
 export function mensagemDeErro(erro: unknown): string {
   if (typeof erro === "object" && erro !== null && "code" in erro && typeof erro.code === "string") {
+    // Em desenvolvimento com VITE_USE_EMULATORS=true, "sem conexão" quase sempre é emulador desligado.
+    if (erro.code === "auth/network-request-failed" && import.meta.env.DEV && import.meta.env.VITE_USE_EMULATORS === "true") {
+      return "Não foi possível falar com os emuladores. Rode `npm run emulators` ou use VITE_USE_EMULATORS=false.";
+    }
     return MENSAGENS[erro.code] ?? `Algo deu errado (${erro.code}).`;
   }
   return "Algo deu errado. Tente de novo.";

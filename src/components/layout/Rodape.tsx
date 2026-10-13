@@ -53,9 +53,17 @@ export function Rodape({ corAcima = "text-branco" }: { corAcima?: string }) {
           </Link>
         </section>
       </div>
-      <p className="flex items-center justify-center gap-1.5 border-t border-preto/10 py-4 text-xs">
-        Feito com <Heart aria-hidden className="size-3.5 fill-vermelho text-vermelho" /> em {INSTITUICAO.cidade}
-      </p>
+      <div className="border-t border-preto/10">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-5 py-4 text-xs sm:flex-row sm:px-8 lg:px-12">
+          <p>
+            © {new Date().getFullYear()} Doe + Vida. Todos os direitos reservados. É proibida a reprodução total ou parcial do
+            conteúdo e do código sem autorização dos autores.
+          </p>
+          <p className="flex shrink-0 items-center gap-1.5">
+            Feito com <Heart aria-hidden className="size-3.5 fill-vermelho text-vermelho" /> em {INSTITUICAO.cidade}
+          </p>
+        </div>
+      </div>
     </footer>
   );
 }
