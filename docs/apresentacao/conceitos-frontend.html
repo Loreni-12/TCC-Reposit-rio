@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Conceitos de front-end no Doe + Vida</title>
+<style>
+  @font-face { font-family: "Poppins"; font-weight: 400; src: url("../../node_modules/@fontsource/poppins/files/poppins-latin-400-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Poppins"; font-weight: 600; src: url("../../node_modules/@fontsource/poppins/files/poppins-latin-600-normal.woff2") format("woff2"); }
+  @page { size: A4; margin: 14mm 16mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Poppins", "Segoe UI", sans-serif; font-size: 9.6pt; line-height: 1.45; color: #111; }
+  header { border-bottom: 3px solid #e30613; padding-bottom: 6pt; margin-bottom: 8pt; }
+  h1 { margin: 0; font-size: 17pt; font-weight: 600; color: #e30613; }
+  header p { margin: 2pt 0 0; color: #4a4a4a; font-size: 9pt; }
+  section { break-inside: avoid; margin: 0 0 7pt; padding: 6pt 9pt; background: #fff5f7; border-radius: 8pt; }
+  h2 { margin: 0 0 2pt; font-size: 10.5pt; font-weight: 600; }
+  h2 span { display: inline-block; min-width: 16pt; color: #e30613; }
+  p { margin: 0; text-align: justify; }
+  .nota { color: #b8050f; font-weight: 600; }
+  footer { margin-top: 6pt; font-size: 8pt; color: #4a4a4a; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Conceitos de front-end no Doe + Vida</h1>
+  <p>Guia rápido e didático de cada tema, com o exemplo de como ele aparece (ou não) no nosso projeto.</p>
+</header>
+
+<section>
+  <h2><span>1.</span>Aplicação Next.js</h2>
+  <p>O Next.js é um framework construído sobre o React. Ele acrescenta rotas criadas a partir das pastas, renderização no servidor (SSR) e geração de páginas estáticas, o que ajuda em desempenho e SEO. <span class="nota">O Doe + Vida não usa Next.js:</span> usamos React com Vite, porque o site é publicado como arquivos estáticos no Firebase Hosting gratuito, e o SSR exigiria um servidor (plano pago). Os conceitos de base, como componentes, rotas e estado, são os mesmos nas duas tecnologias.</p>
+</section>
+
+<section>
+  <h2><span>2.</span>Organização das pastas (arquitetura)</h2>
+  <p>Organizar as pastas é dar um lugar certo para cada tipo de código, para que qualquer pessoa da equipe encontre o que procura. No projeto, o código é dividido em camadas: <b>pages</b> (as telas), <b>components</b> (peças visuais), <b>features</b> (regras de negócio, como a lógica da triagem), <b>services</b> (a única parte que conversa com o Firebase) e <b>config</b> (conteúdo editável, como os critérios e os links oficiais). Cada camada só usa a camada de baixo, e o ESLint avisa se alguém quebrar essa regra.</p>
+</section>
+
+<section>
+  <h2><span>3.</span>Tailwind CSS</h2>
+  <p>O Tailwind é uma forma de estilizar escrevendo classes pequenas direto no HTML, como <i>rounded-full</i> (borda arredondada) ou <i>bg-vermelho</i> (fundo vermelho), em vez de criar arquivos CSS longos. As cores e a fonte do site ficam definidas num único lugar (os "tokens" de design), e assim dá para mudar o visual inteiro sem mexer na lógica.</p>
+</section>
+
+<section>
+  <h2><span>4.</span>Layout responsivo</h2>
+  <p>Um layout responsivo se adapta ao tamanho da tela. Usamos a abordagem <i>mobile-first</i>: o site é pensado primeiro para o celular, e telas maiores ganham ajustes por meio de "pontos de quebra" (sm, md, lg). Por exemplo, no computador a pré-triagem tem duas colunas, e no celular elas ficam uma embaixo da outra. A navbar também vira um menu de três linhas (hambúrguer) em telas pequenas.</p>
+</section>
+
+<section>
+  <h2><span>5.</span>Navegação entre telas</h2>
+  <p>Numa aplicação de página única (SPA), trocar de tela não recarrega o site inteiro: o React Router troca apenas o conteúdo. No Doe + Vida, quase tudo fica na página inicial, dividida em seções (requisitos, agendamento, equipe) que os links da navbar levam até. Só a pré-triagem tem uma rota própria (<i>/triagem</i>), e entrar ou cadastrar acontece num pop-up, sem sair da página.</p>
+</section>
+
+<section>
+  <h2><span>6.</span>Componentização</h2>
+  <p>Componentizar é quebrar a tela em peças reutilizáveis, como blocos de montar. Um componente recebe informações (as "props") e devolve um pedaço de interface. No projeto, o mesmo <i>Botao</i>, <i>Cartao</i> e <i>CampoTexto</i> são usados em várias telas. Isso evita repetir código e garante que tudo tenha a mesma aparência.</p>
+</section>
+
+<section>
+  <h2><span>7.</span>Ícones</h2>
+  <p>Ícones ajudam a pessoa a entender rapidamente o assunto de cada bloco. Usamos a biblioteca <i>lucide-react</i>, que traz ícones em SVG (desenhos vetoriais que não perdem qualidade ao aumentar), no estilo de traço fino da identidade visual. Os ícones decorativos ficam ocultos para leitores de tela (<i>aria-hidden</i>), para não poluir a leitura de quem usa acessibilidade.</p>
+</section>
+
+<section>
+  <h2><span>8.</span>Formulários</h2>
+  <p>Um formulário coleta informações do usuário. No React, cada campo é "controlado": o valor digitado fica guardado no estado do componente, e a tela sempre mostra esse estado. Por exemplo, a pré-triagem mostra perguntas extras apenas quando fazem sentido (a data da tatuagem só aparece se a pessoa respondeu "Sim"). Todos os campos têm rótulo (<i>label</i>) ligado ao campo, o que é importante para a acessibilidade.</p>
+</section>
+
+<section>
+  <h2><span>9.</span>Máscaras de entrada</h2>
+  <p>Uma máscara formata o texto enquanto a pessoa digita. Por exemplo, o telefone vira automaticamente "(47) 99999-1234", e a data ganha as barras. Isso reduz erros e deixa o campo mais fácil de preencher. <span class="nota">Ainda não implementado no Doe + Vida:</span> hoje o telefone aceita qualquer formato e, ao salvar, o sistema guarda só os números. As datas usam o seletor de data do próprio navegador, que já faz a formatação.</p>
+</section>
+
+<section>
+  <h2><span>10.</span>Validações de campos</h2>
+  <p>Validar é conferir se o que foi digitado faz sentido antes de usar ou salvar. Por exemplo: o e-mail tem formato válido? A senha tem pelo menos 6 caracteres? A data não está no futuro? No projeto, as validações ficam em funções separadas e testadas automaticamente. A segurança não depende só da tela: as <i>Security Rules</i> do Firebase validam os dados de novo no servidor, porque a validação do navegador pode ser burlada.</p>
+</section>
+
+<section>
+  <h2><span>11.</span>Mensagens de feedback e toast</h2>
+  <p>Feedback é a resposta do sistema a uma ação, para que a pessoa nunca fique sem saber o que aconteceu. Um <i>toast</i> é uma mensagem curta que aparece por alguns segundos num canto da tela (por exemplo, "Cadastro realizado!") e some sozinha. <span class="nota">O Doe + Vida ainda não tem toast:</span> o feedback é mostrado no próprio lugar da ação, com o erro em vermelho embaixo do campo, um aviso dentro do pop-up e a navbar mostrando "Olá, Nome" depois do login.</p>
+</section>
+
+<section>
+  <h2><span>12.</span>Estados visuais: carregando, vazio, erro e sucesso</h2>
+  <p>Toda tela que depende de dados passa por estados, e cada um precisa de uma aparência própria. <b>Carregando:</b> um ícone girando com o texto "Carregando sua conta…". <b>Vazio:</b> no perfil sem login, aparece o convite "Entre na sua conta" em vez de uma tela em branco. <b>Erro:</b> mensagens em vermelho, como "E-mail ou senha incorretos". <b>Sucesso:</b> o resultado da pré-triagem com orientações, ou o pop-up que fecha sozinho depois do cadastro.</p>
+</section>
+
+<footer>Doe + Vida · TCC, Curso Técnico em Desenvolvimento de Sistemas, CEDUP Hermann Hering, Blumenau/SC, 2026</footer>
+</body>
+</html>
