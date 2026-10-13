@@ -1,0 +1,56 @@
+# Dependências
+node_modules/
+
+# Build e cobertura
+dist/
+dist-ssr/
+coverage/
+*.tsbuildinfo
+
+# Variáveis de ambiente (o modelo .env.example É versionado)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Caches
+.cache/
+.eslintcache
+.vite/
+.vitest/
+
+# Firebase: cache local, logs e dados exportados dos emuladores
+.firebase/
+firebase-debug.log*
+firebase-debug.*.log*
+firestore-debug.log*
+ui-debug.log*
+database-debug.log*
+pubsub-debug.log*
+emulator-data/
+.emulator-data/
+firebase-export-*/
+
+# Chaves privadas / service accounts — NUNCA versionar
+*-firebase-adminsdk-*.json
+serviceAccount*.json
+service-account*.json
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE (mantém apenas recomendações compartilhadas do VS Code)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp

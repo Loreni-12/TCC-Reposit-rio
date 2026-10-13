@@ -1,0 +1,23 @@
+rules_version = '2';
+
+// Doe + Vida — Cloud Firestore Security Rules
+//
+// ESTADO ATUAL (Etapa 0): TUDO NEGADO por padrão.
+//
+// MODELO PLANEJADO (liberado na etapa de autenticação, sempre acompanhado de testes
+// em tests/firestore.rules.test.ts):
+//   users/{uid}
+//     leitura/escrita somente se request.auth.uid == uid
+//   users/{uid}/triagens/{triagemId}
+//     somente o dono; validar campos permitidos (resultado, motivos,
+//     reavaliarAPartirDe, versaoCriterios, criadaEm);
+//     NUNCA aceitar respostas brutas do questionário (LGPD — dado de saúde).
+//
+// PROIBIDO: "allow read, write: if true;" e regras baseadas em data de expiração.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

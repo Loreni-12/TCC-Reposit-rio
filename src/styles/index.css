@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de design (Tailwind v4: cada --color-* vira utilitário, ex.: bg-primaria).
+ * REFERÊNCIA ANTERIOR, NÃO DEFINITIVA: vermelho/branco/preto, estética acolhedora.
+ * A identidade visual final será definida na seção "Design" do CLAUDE.md;
+ * altere só aqui para mudar o visual sem tocar na lógica.
+ */
+@theme {
+  --color-primaria: #c8102e;
+  --color-fundo: #ffffff;
+  --color-texto: #111111;
+}
+
+@layer base {
+  body {
+    @apply bg-fundo text-texto antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primaria;
+  }
+}
