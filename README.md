@@ -2,8 +2,18 @@
 
 Portal web informativo e motivacional sobre doação de sangue, com pré-triagem online **não oficial** e área do usuário. Trabalho de Conclusão de Curso do curso técnico integrado ao ensino médio em Desenvolvimento de Sistemas. Região de referência: Blumenau, SC.
 
-> **No ar:** https://doe-mais-vida.web.app
->
+## Para o professor
+
+- **Site publicado:** https://doe-mais-vida.web.app
+- **Código-fonte:** este repositório.
+
+Roteiro rápido de avaliação, direto no site publicado:
+
+1. **Página inicial:** role a página, ou use o menu, para ver "Quem pode doar", "Agendamento" e "Sobre a equipe".
+2. **Pré-triagem:** clique em "Fazer pré-triagem", responda e veja o resultado (apto, inapto temporário ou inapto), com o motivo, a fonte oficial e a data para refazer. As respostas não são salvas (LGPD).
+3. **Cadastro e login:** clique em "Entrar", depois em "Criar conta" (ou "Continuar com Google"). O perfil é gravado no Cloud Firestore, e somente o próprio usuário consegue lê-lo, garantido pelas Security Rules.
+4. **Perfil:** depois de entrar, acesse https://doe-mais-vida.web.app/perfil para ver os dados salvos no banco.
+
 > **Estado atual:** site em página única (abertura, requisitos, agendamento e equipe), pré-triagem em página própria e conta (entrar/cadastrar) em pop-up. Histórico de pré-triagens no perfil ainda não implementado.
 
 ## Objetivo
