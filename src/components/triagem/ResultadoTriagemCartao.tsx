@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { CRITERIOS, type CodigoCriterio } from "../../config/criterios";
 import { FONTES } from "../../config/fontes";
 import { LINKS_OFICIAIS } from "../../config/links";
-import { ROTAS } from "../../config/rotas";
+import { SECOES } from "../../config/rotas";
 import { formatarDataBr } from "../../features/triagem/datas";
 import type { ResultadoAptidao, ResultadoTriagem } from "../../types/triagem";
 import { Botao, LinkBotao } from "../ui/Botao";
@@ -32,7 +32,7 @@ function ItemCriterio({ codigo }: { codigo: CodigoCriterio }) {
   const criterio = CRITERIOS[codigo];
   const fonte = FONTES[criterio.fonte];
   return (
-    <li className="rounded-lg border border-rosa p-4">
+    <li className="rounded-2xl bg-rosa-claro/60 p-4">
       <p className="font-semibold">{criterio.titulo}</p>
       <p className="mt-1">{criterio.orientacao}</p>
       <p className="mt-2 text-xs text-cinza">
@@ -100,8 +100,8 @@ export function ResultadoTriagemCartao({ resultado, aoRefazer }: Props) {
         {resultado.resultado === "apto" ? (
           <>
             <LinkBotao para={LINKS_OFICIAIS.hemoscAgendamento.url}>Agendar no HEMOSC</LinkBotao>
-            <LinkBotao para={ROTAS.agendamento.caminho} variante="secundario">
-              Planejar minha doação
+            <LinkBotao para={{ pathname: "/", hash: `#${SECOES.agendamento.id}` }} variante="secundario">
+              Como agendar
             </LinkBotao>
           </>
         ) : (

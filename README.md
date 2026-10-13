@@ -2,7 +2,7 @@
 
 Portal web informativo e motivacional sobre doação de sangue, com pré-triagem online **não oficial** e área do usuário. Trabalho de Conclusão de Curso do curso técnico integrado ao ensino médio em Desenvolvimento de Sistemas. Região de referência: Blumenau, SC.
 
-> **Estado atual:** layout global (navbar e rodapé) e pré-triagem funcionando. As demais páginas ainda exibem apenas o título.
+> **Estado atual:** site em página única (abertura, requisitos, agendamento e equipe), pré-triagem em página própria e conta (entrar/cadastrar) em pop-up. Histórico de pré-triagens no perfil ainda não implementado.
 
 ## Objetivo
 
@@ -12,12 +12,12 @@ Informar a população sobre a doação de sangue, desfazer mitos, incentivar no
 
 | Funcionalidade | Status |
 |---|---|
-| Informações: o que é, por que doar, quem pode doar, tabela de compatibilidade ABO/Rh, fontes oficiais | planejada |
+| Informações: requisitos, intervalos e impedimentos, com fonte | **pronta** (tabela de compatibilidade ABO/Rh planejada) |
 | Pré-triagem: questionário (apto / inapto temporário / inapto), orientação e data para refazer | **pronta** (salvar no perfil depende do login) |
-| Sobre a equipe | planejada |
-| Entrar / Cadastro (Firebase Authentication) | planejada |
+| Sobre a equipe (dados do TAP da monografia) | **pronta** |
+| Entrar / Cadastro em pop-up (e-mail/senha e Google) + perfil no Firestore | **pronto** (regras ainda não publicadas) |
 | Perfil: histórico das triagens e data sugerida para reavaliar | planejada |
-| Agendamento: encaminhamento para os canais oficiais | planejada |
+| Agendamento: encaminhamento para os canais oficiais do HEMOSC | **pronto** (planejamento pessoal na conta: planejado) |
 | Layout global: navbar e rodapé | **pronto** |
 
 ## Aviso
@@ -61,12 +61,16 @@ O ESLint impede importar o Firebase fora de `src/services/` e `src/lib/`.
 │   ├── app/            # App, router e LayoutPrincipal (navbar + conteúdo + rodapé)
 │   ├── pages/          # uma página por rota
 │   ├── components/
-│   │   ├── ui/         # Botao, Cartao, Aviso, LinkExterno
+│   │   ├── ui/         # Botao, Cartao, Aviso, LinkExterno, Dialogo, Onda, Conteiner
+│   │   ├── inicio/     # seções da página única (abertura, informações, agendamento, equipe)
+│   │   ├── conta/      # ModalConta (pop-up de entrar/cadastrar)
 │   │   ├── layout/     # Navbar, Rodape
 │   │   ├── formulario/ # CampoTexto, CampoOpcoes (acessíveis)
 │   │   └── triagem/    # formulário e cartão de resultado da pré-triagem
 │   ├── features/
-│   │   └── triagem/    # datas, validarFormulario, verificarAptidao (+ testes)
+│   │   ├── triagem/    # datas, validarFormulario, verificarAptidao (+ testes)
+│   │   └── auth/       # ProvedorConta, useConta, validarConta, erros (+ testes)
+│   ├── services/       # única camada que fala com o Firebase: auth.ts, usuarios.ts
 │   ├── config/         # rotas, links oficiais, fontes, criterios da triagem
 │   ├── types/          # tipos compartilhados (triagem)
 │   ├── assets/         # logo
@@ -78,25 +82,27 @@ O ESLint impede importar o Firebase fora de `src/services/` e `src/lib/`.
 ├── tests/              # testes das Security Rules
 ├── docs/               # progresso, monografia, design (referências visuais)
 ├── firebase.json       # Hosting, Firestore e emuladores
-├── firestore.rules     # regras de segurança (hoje: negar tudo)
+├── firestore.rules     # regras de segurança (users/{uid} só para o dono; resto negado)
 └── firestore.indexes.json
 ```
 
-A pasta `services/` será criada junto com a autenticação.
 
 ### Páginas do site
 
-| Rota | Página | Arquivo |
-|---|---|---|
-| `/` | Início: apresentação e atalhos para os canais oficiais | `src/pages/InicioPage.tsx` |
-| `/triagem` | Pré-triagem (formulário + resultado) | `src/pages/TriagemPage.tsx` |
-| `/equipe` | Sobre a equipe | `src/pages/EquipePage.tsx` |
-| `/entrar` | Entrar ou cadastrar | `src/pages/EntrarPage.tsx` |
-| `/perfil` | Meu perfil | `src/pages/PerfilPage.tsx` |
-| `/agendamento` | Agendar doação | `src/pages/AgendamentoPage.tsx` |
-| qualquer outra | Página não encontrada | `src/pages/NaoEncontradaPage.tsx` |
+O site é uma **página única** com seções; só a pré-triagem e o perfil têm página própria. Entrar/cadastrar é um **pop-up**.
 
-Caminhos, títulos e itens do menu ficam em `src/config/rotas.ts`. Todas as páginas usam o `LayoutPrincipal`.
+| Endereço | Conteúdo | Arquivo |
+|---|---|---|
+| `/` | Abertura | `components/inicio/SecaoAbertura.tsx` |
+| `/#informacoes` | Quem pode doar: requisitos, intervalos, impedimentos | `components/inicio/SecaoInformacoes.tsx` (+ `FaixaTriagem`) |
+| `/#agendamento` | Como agendar no HEMOSC | `components/inicio/SecaoAgendamento.tsx` |
+| `/#equipe` | Sobre a equipe | `components/inicio/SecaoEquipe.tsx` |
+| `/triagem` | Pré-triagem (formulário + resultado) | `pages/TriagemPage.tsx` |
+| `/perfil` | Dados da conta (área logada) | `pages/PerfilPage.tsx` |
+| pop-up | Entrar, criar conta, completar cadastro (Google) | `components/conta/ModalConta.tsx` |
+| qualquer outra | Página não encontrada | `pages/NaoEncontradaPage.tsx` |
+
+Rotas, seções (âncoras) e itens do menu ficam em `src/config/rotas.ts`. Todas as páginas usam o `LayoutPrincipal` (navbar + rodapé + pop-up de conta).
 
 ### Pré-triagem: como funciona
 
@@ -110,7 +116,7 @@ Caminhos, títulos e itens do menu ficam em `src/config/rotas.ts`. Todas as pág
 - **Projeto:** `doe-mais-vida`, no plano **Spark** (gratuito). Não usamos nada que exija o plano Blaze: Cloud Functions, Cloud Storage e App Hosting estão fora.
 - **Authentication:** e-mail/senha e Google.
 - **Cloud Firestore:** edição Standard, região `southamerica-east1` (São Paulo).
-- **Security Rules:** hoje negam todo acesso. Quando a autenticação for implementada, cada usuário poderá ler e escrever **somente os próprios dados**. Toda mudança de regra vem acompanhada de teste.
+- **Security Rules:** `users/{uid}` pode ser lido, criado e atualizado **somente pelo próprio usuário**, com validação de campos (sem campos extras, e-mail igual ao da conta, datas definidas pelo servidor). Todo o resto é negado. São 11 testes em `tests/firestore.rules.test.ts`. **As regras novas ainda não foram publicadas no projeto real** (deploy só com confirmação).
 - **Hosting:** serve a pasta `dist/` e redireciona todas as rotas para `index.html`. Endereço: `https://doe-mais-vida.web.app`.
 - **Emuladores:** versões locais de Auth, Firestore e Hosting para desenvolver e testar sem tocar no projeto real.
 
@@ -257,3 +263,4 @@ Requisitos e modelagem: veja [docs/monografia/](docs/monografia/).
 | 2026-10-12 | Etapa 0: ambiente, estrutura base, Firebase (`doe-mais-vida`), testes e documentação. |
 | 2026-10-12 | Etapa 1: monografia transcrita (diagramas, dicionário, quadros) e rastreabilidade em `docs/monografia/`. Firestore em São Paulo. |
 | 2026-10-12 | Identidade visual (paleta, Poppins, ícones, logo), layout global e pré-triagem com 37 testes. |
+| 2026-10-12 | Página única com seções fluidas, equipe (TAP), cadastro em pop-up (Firebase Auth + perfil), regras de `users/{uid}` com testes, Firebase carregado sob demanda (Firestore Lite). |

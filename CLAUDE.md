@@ -36,14 +36,14 @@ Fluxo de dependência obrigatório: **pages → components → features → serv
 
 | Pasta | Finalidade |
 |---|---|
-| `src/app/` | roteador (`router.tsx`), providers, layout global |
+| `src/app/` | roteador (`router.tsx`), `App` (ProvedorConta), `LayoutPrincipal` |
 | `src/pages/` | uma página por rota; só UI e composição |
-| `src/components/` | componentes visuais sem Firebase: `ui/`, `layout/`, `formulario/`, `triagem/` |
-| `src/features/` | lógica por domínio, pura e testada: `triagem/` (datas, validação, verificarAptidao); `auth/` e `perfil/` a criar |
-| `src/services/` | única camada que fala com Firebase — *a criar* |
+| `src/components/` | componentes visuais sem Firebase: `ui/`, `layout/`, `formulario/`, `inicio/` (seções), `conta/` (pop-up), `triagem/` |
+| `src/features/` | lógica por domínio: `triagem/` (datas, validação, verificarAptidao) e `auth/` (ProvedorConta, useConta, validação, erros) |
+| `src/services/` | única camada que fala com Firebase: `auth.ts` (Quadro 1), `usuarios.ts` |
 | `src/lib/firebase.ts` | inicialização do Firebase + emuladores em dev |
-| `src/config/` | conteúdo configurável: `rotas`, `links` oficiais, `fontes`, `criterios` da triagem |
-| `src/types/` | tipos compartilhados (`triagem.ts`) |
+| `src/config/` | conteúdo configurável: `rotas` (+ seções), `links`, `fontes`, `criterios`, `informacoes`, `equipe` |
+| `src/types/` | tipos compartilhados (`triagem.ts`, `usuario.ts`) |
 | `src/styles/` | tokens de design e CSS global |
 | `tests/` | testes das Security Rules (rodam no emulador) |
 | `public/` | assets servidos sem processamento (`favicon.png`) |
@@ -71,7 +71,8 @@ Não criar pastas/arquivos vazios só para "parecer organizado".
     dataCriacao: timestamp     # NÃO marca horário no hemocentro; UI sempre leva ao canal oficial
   ```
   Questionário/critérios/orientações ficam em `src/config/criterios.ts` (C3), não no Firestore.
-- **Security Rules (`firestore.rules`):** hoje negam tudo. Modelo futuro: somente o dono acessa `users/{uid}` e subcoleções. Proibido `if true` e regras com data de expiração.
+- **Security Rules (`firestore.rules`):** `users/{uid}` liberado só para o dono, com validação de campos. Subcoleções e o resto continuam negados. **Versão local ainda não publicada** (`firebase deploy --only firestore:rules`, só com confirmação). Proibido `if true` e regras com data de expiração.
+- **SDK:** o app usa `firebase/firestore/lite` (sem tempo real, bem menor) e carrega os serviços sob demanda (`ProvedorConta`). Os testes de regras usam o SDK completo.
 - **Hosting:** serve `dist/`, rewrite de tudo para `/index.html` (SPA). URL: `https://doe-mais-vida.web.app`.
 - **Emuladores:** `npm run emulators` (Auth 9099, Firestore 8080, Hosting 5000, UI 4000). Com `VITE_USE_EMULATORS=true` no `.env.local`, `npm run dev` usa os emuladores. Testes de regras usam o projeto `demo-doe-mais-vida` (nunca toca recursos reais).
 
@@ -122,10 +123,10 @@ Se a sessão for interrompida, a próxima começa lendo este arquivo e `docs/PRO
 2. ~~Layout global (navbar e rodapé)~~ (concluído)
 3. Página de informações e tabela de compatibilidade ABO/Rh
 4. ~~Triagem (lógica testada)~~ (formulário e lógica prontos; salvar no perfil depende da autenticação)
-5. Autenticação
+5. ~~Autenticação~~ (pop-up + perfil prontos; falta publicar as regras)
 6. Perfil com histórico
 7. Agendamento (links oficiais)
-8. Sobre a equipe
+8. ~~Sobre a equipe~~ (seção na página única)
 9. Revisão de segurança
 10. Deploy
 
@@ -149,9 +150,10 @@ Tokens ficam em `src/styles/index.css` (`@theme` do Tailwind v4): mude o visual 
 - **Contraste:** vermelho sobre rosa pastel = 3,7:1, então **só em títulos grandes**. Texto normal vermelho somente sobre branco (4,9:1).
 - **Tipografia:** Poppins SemiBold (600) nos títulos, Regular (400) nos textos. Auto-hospedada via `@fontsource/poppins`, sem requisição ao Google (LGPD).
 - **Ícones:** `lucide-react`, traço fino, sempre em vermelho e com `aria-hidden` quando decorativos.
-- **Bordas e sombras:** `rounded-xl` em cartões, `rounded-lg` em botões e campos, borda de 1px `rosa` e nenhuma sombra.
-- **Componentes base:** `Cartao`, `Botao`/`LinkBotao`, `Aviso`, `LinkExterno`, `CampoTexto`, `CampoOpcoes`, `TituloPagina`, `Navbar`, `Rodape`.
-- **Mobile:** mobile-first. Na navbar, o menu vira um botão hambúrguer abaixo de 768px (`md`).
+- **Formas:** fluido e arredondado, nada quadrado. Botões, abas e opções em pílula (`rounded-full`), cartões `rounded-3xl`, campos `rounded-xl`. Cartões **sem borda**: branco sobre rosa, ou `rosa-claro/60` sobre branco. Nenhuma sombra.
+- **Página única:** seções alternam `rosa-claro` e `branco`, emendadas pelo divisor `Onda`. No máximo um bloco vermelho de destaque por seção. Largura `max-w-7xl` (`Conteiner`), evitando colunas estreitas no meio da tela.
+- **Componentes base:** `Conteiner`, `Onda`, `Cartao` (tom/espacamento), `Botao`/`LinkBotao`, `Aviso`, `LinkExterno`, `Dialogo`, `CampoTexto`, `CampoOpcoes`, `TituloPagina`, `CabecalhoSecao`, `Navbar`, `Rodape`.
+- **Mobile:** mobile-first. Na navbar, o menu vira um botão hambúrguer abaixo de 1024px (`lg`). Em listas de cartões pequenos, usar 2 colunas já no celular.
 - **Logo:** `src/assets/logo.png` (recortado do original). Favicon em `public/favicon.png`.
 
 ## 13. Comandos

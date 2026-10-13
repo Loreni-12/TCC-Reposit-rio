@@ -22,8 +22,8 @@ interface Props {
 function Secao({ titulo, icone, children }: { titulo: string; icone: ReactNode; children: ReactNode }) {
   return (
     <Cartao>
-      <h2 className="mb-5 flex items-center gap-2 text-xl">
-        <span className="text-vermelho">{icone}</span>
+      <h2 className="mb-6 flex items-center gap-3 text-xl">
+        <span className="grid size-10 place-items-center rounded-full bg-rosa-claro text-vermelho">{icone}</span>
         {titulo}
       </h2>
       <div className="space-y-6">{children}</div>
@@ -214,7 +214,9 @@ export function FormularioTriagemCampos({ valores: v, erros, aoMudar, aoEnviar }
         </p>
       )}
 
-      <Botao type="submit">Ver resultado</Botao>
+      <Botao type="submit" className="w-full sm:w-auto">
+        Ver resultado
+      </Botao>
     </form>
   );
 }

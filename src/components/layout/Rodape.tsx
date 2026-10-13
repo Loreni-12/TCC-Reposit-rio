@@ -1,29 +1,38 @@
+import { Heart } from "lucide-react";
 import { Link } from "react-router";
+import logo from "../../assets/logo.png";
+import { INSTITUICAO } from "../../config/equipe";
 import { LINKS_OFICIAIS } from "../../config/links";
-import { ROTAS } from "../../config/rotas";
+import { SECOES } from "../../config/rotas";
 import { LinkExterno } from "../ui/LinkExterno";
+import { Onda } from "../ui/Onda";
 
 const FONTES_RODAPE = [LINKS_OFICIAIS.faqMinisterioSaude, LINKS_OFICIAIS.hemoscRequisitos, LINKS_OFICIAIS.hemoscOndeDoar];
 
-export function Rodape() {
+/** `corAcima`: cor da seção logo acima do rodapé, para a onda emendar. */
+export function Rodape({ corAcima = "text-branco" }: { corAcima?: string }) {
   return (
-    <footer className="border-t border-rosa bg-branco text-sm">
-      <div className="mx-auto grid max-w-5xl gap-8 px-4 py-10 md:grid-cols-3">
+    <footer className="bg-rosa text-sm">
+      <Onda className={corAcima} />
+      <div className="mx-auto grid max-w-7xl gap-10 px-5 pb-10 pt-6 sm:px-8 md:grid-cols-[1.3fr_1fr_1fr] lg:px-12">
         <section aria-labelledby="rodape-aviso">
-          <h2 id="rodape-aviso" className="mb-2 text-base text-vermelho">
-            Site não oficial
-          </h2>
-          <p className="text-cinza">
-            O Doe + Vida é um projeto escolar e não tem vínculo com o HEMOSC nem com o Ministério da Saúde. A
-            pré-triagem é só uma orientação e não substitui a triagem feita no hemocentro.
+          <div className="mb-4 flex items-center gap-3">
+            <img src={logo} alt="" width={64} height={54} className="h-12 w-auto rounded-xl bg-branco p-1" />
+            <h2 id="rodape-aviso" className="text-base">
+              Site não oficial
+            </h2>
+          </div>
+          <p className="max-w-sm">
+            O Doe + Vida é um projeto escolar e não tem vínculo com o HEMOSC nem com o Ministério da Saúde. A pré-triagem é
+            só uma orientação e não substitui a triagem feita no hemocentro.
           </p>
         </section>
 
         <section aria-labelledby="rodape-fontes">
-          <h2 id="rodape-fontes" className="mb-2 text-base text-vermelho">
+          <h2 id="rodape-fontes" className="mb-3 text-base">
             Fontes oficiais
           </h2>
-          <ul className="space-y-1">
+          <ul className="space-y-2">
             {FONTES_RODAPE.map((link) => (
               <li key={link.url}>
                 <LinkExterno href={link.url}>{link.rotulo}</LinkExterno>
@@ -33,17 +42,20 @@ export function Rodape() {
         </section>
 
         <section aria-labelledby="rodape-creditos">
-          <h2 id="rodape-creditos" className="mb-2 text-base text-vermelho">
+          <h2 id="rodape-creditos" className="mb-3 text-base">
             Créditos
           </h2>
-          <p className="text-cinza">
-            Trabalho de Conclusão de Curso, Desenvolvimento de Sistemas, CEDUP Hermann Hering, Blumenau/SC, 2026.
+          <p>
+            Trabalho de Conclusão de Curso, {INSTITUICAO.curso}, {INSTITUICAO.escola}, {INSTITUICAO.cidade}, {INSTITUICAO.ano}.
           </p>
-          <Link to={ROTAS.equipe.caminho} className="mt-1 inline-block underline underline-offset-2 hover:text-vermelho">
+          <Link to={{ pathname: "/", hash: `#${SECOES.equipe.id}` }} className="mt-2 inline-block underline underline-offset-2 hover:text-vermelho">
             Conheça a equipe
           </Link>
         </section>
       </div>
+      <p className="flex items-center justify-center gap-1.5 border-t border-preto/10 py-4 text-xs">
+        Feito com <Heart aria-hidden className="size-3.5 fill-vermelho text-vermelho" /> em {INSTITUICAO.cidade}
+      </p>
     </footer>
   );
 }

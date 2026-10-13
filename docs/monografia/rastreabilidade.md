@@ -7,20 +7,20 @@
 
 | Caso de uso | Implementação prevista | Status |
 |---|---|---|
-| UC1 Consultar informações sobre doação | rota `/` + `src/config/informacoes.ts` (conteúdo com fonte) | ⏳ |
-| UC2 Consultar critérios para doação | seção de critérios lida de `src/config/criterios.ts` (mesma fonte da triagem) | ⏳ |
+| UC1 Consultar informações sobre doação | seção `/#informacoes` + `config/informacoes.ts` (com fonte) | ✅ |
+| UC2 Consultar critérios para doação | seção `/#informacoes` (requisitos, intervalos, impedimentos) | ✅ |
 | UC3 Realizar questionário de triagem online | rota `/triagem` (`TriagemPage`) | ✅ |
 | UC4 Responder o questionário (include) | `components/triagem/FormularioTriagemCampos.tsx` + `features/triagem/validarFormulario.ts` | ✅ |
 | UC5 Verificar aptidão (include) | `features/triagem/verificarAptidao.ts` (24 testes) | ✅ |
 | UC6 Consultar resultado (include) | `components/triagem/ResultadoTriagemCartao.tsx` ✅ · histórico em `/perfil` ⏳ (depende do login) | 🔧 |
 | UC7 Receber orientação (extend) | orientação + fonte por motivo, vindas de `config/criterios.ts` | ✅ |
-| UC8 Agendar doação (extend UC5) | rota `/agendamento`: planejar data + link oficial (C1) | ⏳ |
+| UC8 Agendar doação (extend UC5) | seção `/#agendamento` + botões no resultado da triagem: links oficiais ✅ · planejamento pessoal na conta ⏳ | 🔧 |
 
 ## 2. Classes → código
 
 | Classe (Figura 4) | Onde vira código real | Observação |
 |---|---|---|
-| Usuario | `src/types/usuario.ts` + `src/services/usuarios.ts` (`users/{uid}`) | O id passa a ser a string do Firebase Auth (uid), não `int`. ✏️ |
+| Usuario ✅ | `src/types/usuario.ts` + `src/services/usuarios.ts` (`users/{uid}`) + regras com 11 testes | O id passa a ser a string do Firebase Auth (uid), não `int`. ✏️ |
 | InformacaoDoacao | `src/config/informacoes.ts` | Conteúdo estático versionado, cada item com fonte e data. |
 | CriterioDoacao | `src/config/criterios.ts` | Fonte única dos critérios (fonte + data + status de validação). |
 | QuestionarioTriagem | `src/features/triagem/questionario.ts` | Perguntas geradas a partir dos critérios. Ver **C3**. |
@@ -37,7 +37,7 @@ Multiplicidade: o diagrama mostra Usuario **1—1** QuestionarioTriagem, mas o t
 
 | Quadro | Código real | Status |
 |---|---|---|
-| Q1 cadastrar/entrar | `src/services/auth.ts` (mesmas funções do Firebase, tipadas, com mensagens de erro em português) + Google | ⏳ |
+| Q1 cadastrar/entrar | `src/services/auth.ts`: `cadastrar()` usa `createUserWithEmailAndPassword` + `updateProfile`, `entrar()` usa `signInWithEmailAndPassword`, mais `entrarComGoogle()` e `redefinirSenha()`. Erros traduzidos em `features/auth/erros.ts`. Pop-up `ModalConta`, testado de ponta a ponta no emulador. | ✅ |
 | Q2 verificarTriagem | `src/features/triagem/verificarAptidao.ts`: limites vindos de `config/criterios.ts` (`PARAMETROS`), sem manipular o DOM. Diferença em relação ao Quadro 2: a idade mínima é 16 (o quadro usa `idade < 16`, o que bate) e o resultado tem 3 níveis com data para refazer. | ✅ |
 | Q3 agendar | `src/services/agendamentos.ts`: `addDoc(collection(db, "users", uid, "agendamentos"), {...})` com status `planejado` (C1) | ⏳ |
 

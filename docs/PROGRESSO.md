@@ -10,9 +10,26 @@
 - [x] Identidade visual definida (CLAUDE.md §12).
 - [ ] **Equipe revisar os critérios** em `src/config/criterios.ts` (comparar `trechoFonte` com a fonte; marcar `revisadoPelaEquipe: true`). Ponto de dúvida: primeira doação "até 60 anos" ou "antes dos 60".
 - [ ] Equipe conferir manualmente a página de requisitos do HEMOSC e dizer se algum critério deve entrar.
-- [ ] Testar a pré-triagem num celular de verdade (as capturas automáticas não chegam a 390 px).
+- [ ] Testar num celular de verdade (o teste automatizado já emula 390 px e mostrou que nada estoura a largura).
+- [ ] **Publicar as regras do Firestore** (`firebase deploy --only firestore:rules`). Sem isso, o cadastro no projeto real cria a conta, mas não salva o perfil. **Aguardando confirmação.**
+- [ ] Fotos e minibiografias da equipe (opcional; hoje aparecem as iniciais).
+- [ ] Decidir se `/perfil` continua como página ou vira parte do pop-up.
 - [ ] Criar remoto no GitHub e fazer o primeiro push (somente com confirmação).
 - [ ] Projeto antigo `doemaisvidadb` não é mais usado — decidir se mantém ou exclui (pelo console; nada foi alterado nele).
+
+## 2026-10-12 — Página única, visual fluido e conta em pop-up
+
+**Feito**
+- O site virou página única: abertura, quem pode doar, faixa da pré-triagem, agendamento e equipe. Só a pré-triagem e o perfil têm página própria. As rotas `/equipe`, `/entrar` e `/agendamento` foram removidas.
+- Visual fluido: seções rosa e branco emendadas por ondas, cartões sem borda e arredondados, botões em pílula, um bloco vermelho de destaque, largura `max-w-7xl`.
+- Equipe com os dados do TAP (nomes, funções, professores, escola).
+- Conta em pop-up (`<dialog>` nativo): entrar, criar conta, Google, "esqueci a senha", completar cadastro após o Google e consentimento LGPD com texto explicativo. Perfil salvo em `users/{uid}`.
+- Regras do Firestore para `users/{uid}` com 11 testes. **Não publicadas.**
+- Desempenho: Firebase carregado sob demanda e troca para o Firestore Lite (pedaço do Firebase: 557 → 195 kB; aviso de tamanho do build resolvido).
+
+**Verificação:** lint ✔ · typecheck ✔ · build ✔ (sem avisos) · test 47/47 ✔ · test:rules 11/11 ✔ · teste de ponta a ponta no navegador (Edge + emuladores): página em 390 px sem estourar a largura, pré-triagem completa e cadastro → "Olá, Maria", sem erros no console.
+
+**Próximo passo:** publicar as regras (com confirmação) → salvar o resultado da pré-triagem no perfil.
 
 ## 2026-10-12 — Identidade visual, layout global e pré-triagem
 

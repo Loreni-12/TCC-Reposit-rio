@@ -32,7 +32,7 @@ export function CampoOpcoes<T extends string>({ pergunta, nome, opcoes, valor, a
         {opcoes.map((opcao) => (
           <label
             key={opcao.valor}
-            className={`flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2 ${
+            className={`flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 transition-colors hover:border-vermelho ${
               valor === opcao.valor ? "border-vermelho bg-rosa-claro" : erro ? "border-vermelho" : "border-rosa"
             }`}
           >

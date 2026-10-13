@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore/lite";
 
 // Inicialização única do Firebase. Somente src/services/ deve importar este módulo.
 const env = import.meta.env;

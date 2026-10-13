@@ -1,6 +1,7 @@
 import { useId, type InputHTMLAttributes } from "react";
 
 interface CampoTextoProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> {
+  larguraTotal?: boolean;
   rotulo: string;
   dica?: string;
   erro?: string;
@@ -8,7 +9,7 @@ interface CampoTextoProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "o
 }
 
 /** Input com label, dica e mensagem de erro ligadas por aria-describedby. */
-export function CampoTexto({ rotulo, dica, erro, aoMudar, className = "", ...props }: CampoTextoProps) {
+export function CampoTexto({ rotulo, dica, erro, aoMudar, larguraTotal = false, className = "", ...props }: CampoTextoProps) {
   const id = useId();
   const idDica = `${id}-dica`;
   const idErro = `${id}-erro`;
@@ -29,7 +30,7 @@ export function CampoTexto({ rotulo, dica, erro, aoMudar, className = "", ...pro
         aria-invalid={erro ? true : undefined}
         aria-describedby={descricao}
         onChange={(e) => aoMudar(e.target.value)}
-        className={`mt-2 w-full max-w-xs rounded-lg border bg-branco px-3 py-2 ${erro ? "border-vermelho" : "border-rosa"}`}
+        className={`mt-2 w-full rounded-xl border bg-branco px-4 py-2.5 transition-colors focus:border-vermelho ${larguraTotal ? "" : "max-w-xs"} ${erro ? "border-vermelho" : "border-rosa"}`}
         {...props}
       />
       {erro && (
