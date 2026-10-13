@@ -55,17 +55,22 @@ Não criar pastas/arquivos vazios só para "parecer organizado".
 
 - **Projeto:** `doe-mais-vida` · **Plano:** Spark (gratuito) — **nunca fazer upgrade**.
 - **Auth:** provedores E-mail/Senha e Google (ativos).
-- **Firestore:** edição Standard, região `southamerica-east1` (São Paulo). Modelo **proposto, a confirmar**:
+- **Firestore:** edição Standard, região `southamerica-east1` (São Paulo). Modelo **aprovado** (decisões C1–C5 em `docs/monografia/rastreabilidade.md`):
   ```
-  users/{uid}
-    nome, email, criadoEm, consentimentoLgpdEm
-  users/{uid}/triagens/{triagemId}
+  users/{uid}                                  # Usuario (Tabela 1)
+    nome, email, dataNascimento, telefone?     # telefone opcional
+    dataCadastro, consentimentoLgpdEm
+  users/{uid}/triagens/{id}                    # ResultadoTriagem (Tabela 3 sem respostas brutas)
     resultado: "apto" | "inapto_temporario" | "inapto"
-    motivos: string[]          # códigos definidos em config, nunca respostas brutas
+    motivos: string[]          # códigos de criterios.ts, NUNCA respostas brutas
     reavaliarAPartirDe: timestamp | null
     versaoCriterios: string
-    criadaEm: timestamp
+    dataResposta: timestamp
+  users/{uid}/agendamentos/{id}                # AgendamentoDoacao (Tabela 4, C1)
+    idHemocentro, data, horario?, status: "planejado" | "realizado" | "cancelado"
+    dataCriacao: timestamp     # NÃO marca horário no hemocentro; UI sempre leva ao canal oficial
   ```
+  Questionário/critérios/orientações ficam em `src/config/criterios.ts` (C3), não no Firestore.
 - **Security Rules (`firestore.rules`):** hoje negam tudo. Modelo futuro: somente o dono acessa `users/{uid}` e subcoleções. Proibido `if true` e regras com data de expiração.
 - **Hosting:** serve `dist/`, rewrite de tudo para `/index.html` (SPA). URL: `https://doe-mais-vida.web.app`.
 - **Emuladores:** `npm run emulators` (Auth 9099, Firestore 8080, Hosting 5000, UI 4000). Com `VITE_USE_EMULATORS=true` no `.env.local`, `npm run dev` usa os emuladores. Testes de regras usam o projeto `demo-doe-mais-vida` (nunca toca recursos reais).

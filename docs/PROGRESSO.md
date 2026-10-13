@@ -4,7 +4,7 @@
 
 ## Pendências abertas
 
-- [ ] **Decisões sobre os conflitos C1–C5** da monografia (`docs/monografia/rastreabilidade.md` §4). Bloqueiam a implementação.
+- [x] Decisões C1–C5 tomadas (ver `docs/monografia/rastreabilidade.md` §4).
 - [ ] Salvar o PDF da monografia em `docs/monografia/` (recebido só pelo chat).
 - [ ] Equipe ajustar o texto da monografia (`rastreabilidade.md` §5).
 - [ ] Definir identidade visual (CLAUDE.md §12). O protótipo da Figura 3 serve de referência.
@@ -19,7 +19,9 @@
 - Monografia transcrita em `docs/monografia/modelo-monografia.md` (diagramas em Mermaid, dicionário de dados, quadros de código).
 - Rastreabilidade em `docs/monografia/rastreabilidade.md`: casos de uso e classes ligados a arquivos, 5 conflitos (C1–C5) e lista de afirmações do texto que não batem com o sistema.
 
-**Próximo passo:** com as decisões da equipe, implementar o layout global e as features na ordem do roteiro.
+**Decisões:** C1 planejar + link oficial · C2 só resultado · C3 critérios em arquivo · C4 comprovante + lembrete .ics · C5 manter telefone (opcional) e dataNascimento.
+
+**Próximo passo:** implementar o layout global e as features na ordem do roteiro.
 
 ## 2026-10-12 — Etapa 0: preparação do ambiente (concluída)
 

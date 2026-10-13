@@ -14,7 +14,7 @@
 | UC5 Verificar aptidão (include) | `verificarAptidao()` em `src/features/triagem/`, com testes | ⏳ |
 | UC6 Consultar resultado (include) | tela de resultado + histórico em `/perfil` | ⏳ |
 | UC7 Receber orientação (extend) | orientações por motivo, vindas de `criterios.ts` | ⏳ |
-| UC8 Agendar doação (extend UC5) | ver conflito **C1** | ⚠️ |
+| UC8 Agendar doação (extend UC5) | rota `/agendamento`: planejar data + link oficial (C1) | ⏳ |
 
 ## 2. Classes → código
 
@@ -28,7 +28,7 @@
 | VerificacaoAptidao | `src/features/triagem/verificarAptidao.ts` | Função pura e testada; substitui o Quadro 2. |
 | ResultadoTriagem | `src/types/triagem.ts` + `src/services/triagens.ts` (`users/{uid}/triagens`) | Salva resultado, códigos de motivo e datas. |
 | Orientacao | `src/config/criterios.ts` (texto de orientação por critério) | |
-| AgendamentoDoacao | ver **C1** | |
+| AgendamentoDoacao | `src/types/agendamento.ts` + `src/services/agendamentos.ts` (`users/{uid}/agendamentos`) | `agendar()` = planejar, `cancelar()`, `confirmar()` = marcar como realizada (C1). |
 | Hemocentro (citado no texto, ausente na figura) | `src/config/hemocentros.ts` | Dados reais, marcados como "a verificar" até a equipe confirmar. ✏️ |
 
 Multiplicidade: o diagrama mostra Usuario **1—1** QuestionarioTriagem, mas o texto diz que o usuário pode fazer vários. Será implementado como **1—0..\***. ✏️
@@ -39,7 +39,7 @@ Multiplicidade: o diagrama mostra Usuario **1—1** QuestionarioTriagem, mas o t
 |---|---|---|
 | Q1 cadastrar/entrar | `src/services/auth.ts` (mesmas funções do Firebase, tipadas, com mensagens de erro em português) + Google | ⏳ |
 | Q2 verificarTriagem | `src/features/triagem/verificarAptidao.ts`: lê os critérios de `criterios.ts` em vez de números fixos e não manipula o DOM | ⏳ |
-| Q3 agendar | depende de **C1** | ⚠️ |
+| Q3 agendar | `src/services/agendamentos.ts`: `addDoc(collection(db, "users", uid, "agendamentos"), {...})` com status `planejado` (C1) | ⏳ |
 
 ## 4. Conflitos com as restrições do projeto (precisam de decisão)
 
@@ -48,6 +48,16 @@ Multiplicidade: o diagrama mostra Usuario **1—1** QuestionarioTriagem, mas o t
 - **C3 Questionários no Firestore.** Sem backend, só daria para editar perguntas pelo console. Já um arquivo versionado tem histórico, fonte e testes.
 - **C4 RF-e (relatórios para o hemocentro) e RF-f (lembretes e notificações).** O RF-e exige integração, que o TAP proíbe. Enviar e-mail ou push exige Cloud Functions, que só existe no plano Blaze (pago).
 - **C5 Campos `telefone` e `dataNascimento`.** Sem envio de notificações, o telefone não tem uso. A data de nascimento pode ser útil, mas é um dado pessoal a mais para guardar.
+
+### Decisões da equipe (2026-10-12)
+
+| Conflito | Decisão | Efeito na monografia ✏️ |
+|---|---|---|
+| C1 | **Planejar + link oficial.** O usuário registra a data em que *pretende* doar (`planejado` / `realizado` / `cancelado`) em `users/{uid}/agendamentos`, e o site o leva ao canal oficial do HEMOSC para marcar o horário. O aviso "isto não marca horário no hemocentro" fica sempre visível. | O Quadro 3 vira o código real (`addDoc` na subcoleção do usuário). A Tabela 4 troca o status "agendado" por "planejado" e explica o encaminhamento. |
+| C2 | **Só o resultado.** As respostas ficam apenas no navegador. O banco guarda resultado, códigos de motivo, data, "reavaliar a partir de" e versão dos critérios, em `users/{uid}/triagens`. | A Tabela 3 perde o campo `respostas` e ganha `motivos`, `reavaliarAPartirDe` e `versaoCriterios`. |
+| C3 | **Arquivo versionado.** As perguntas são geradas a partir de `src/config/criterios.ts`, com fonte, data e versão. | A Tabela 2 passa a descrever a estrutura do arquivo, não uma coleção do Firestore. |
+| C4 | **Adaptar.** RF-e vira o comprovante da pré-triagem, que o usuário vê ou imprime. RF-f vira um lembrete no perfil + arquivo `.ics` para o calendário. | Reescrever RF-e e RF-f. |
+| C5 | **Manter `telefone` e `dataNascimento`**, como na Tabela 1. O telefone fica **opcional** e só é usado na área do próprio usuário. | Sem mudança na Tabela 1. A política de privacidade deve citar os dois campos. |
 
 ## 5. Afirmações da monografia que não batem com o sistema real (✏️ ajustar o texto)
 
