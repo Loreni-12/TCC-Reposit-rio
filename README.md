@@ -2,23 +2,23 @@
 
 Portal web informativo e motivacional sobre doação de sangue, com pré-triagem online **não oficial** e área do usuário. Trabalho de Conclusão de Curso do curso técnico integrado ao ensino médio em Desenvolvimento de Sistemas. Região de referência: Blumenau, SC.
 
-> **Estado atual:** Etapa 0 concluída (ambiente e estrutura base). As páginas ainda exibem apenas o título.
+> **Estado atual:** layout global (navbar e rodapé) e pré-triagem funcionando. As demais páginas ainda exibem apenas o título.
 
 ## Objetivo
 
 Informar a população sobre a doação de sangue, desfazer mitos, incentivar novos doadores e ajudar cada pessoa a saber se provavelmente pode doar, encaminhando-a aos canais oficiais do HEMOSC / Hemocentro Regional de Blumenau.
 
-## Funcionalidades (planejadas)
+## Funcionalidades
 
 | Funcionalidade | Status |
 |---|---|
 | Informações: o que é, por que doar, quem pode doar, tabela de compatibilidade ABO/Rh, fontes oficiais | planejada |
-| Triagem: questionário de pré-avaliação (apto / inapto temporário / inapto) e orientação | planejada |
+| Pré-triagem: questionário (apto / inapto temporário / inapto), orientação e data para refazer | **pronta** (salvar no perfil depende do login) |
 | Sobre a equipe | planejada |
 | Entrar / Cadastro (Firebase Authentication) | planejada |
 | Perfil: histórico das triagens e data sugerida para reavaliar | planejada |
 | Agendamento: encaminhamento para os canais oficiais | planejada |
-| Layout global: navbar e rodapé | planejada |
+| Layout global: navbar e rodapé | **pronto** |
 
 ## Aviso
 
@@ -31,7 +31,7 @@ A triagem do Doe + Vida é **apenas orientativa** e **não substitui a triagem o
 | Build | Vite |
 | Interface | React + TypeScript |
 | Rotas | React Router |
-| Estilo | Tailwind CSS v4 |
+| Estilo | Tailwind CSS v4, fonte Poppins (`@fontsource/poppins`), ícones `lucide-react` |
 | Backend | Firebase (Authentication + Cloud Firestore), plano gratuito Spark |
 | Hospedagem | Firebase Hosting |
 | Testes | Vitest + `@firebase/rules-unit-testing` |
@@ -58,36 +58,52 @@ O ESLint impede importar o Firebase fora de `src/services/` e `src/lib/`.
 
 ```
 ├── src/
-│   ├── app/            # App.tsx e router.tsx (rotas)
+│   ├── app/            # App, router e LayoutPrincipal (navbar + conteúdo + rodapé)
 │   ├── pages/          # uma página por rota
-│   ├── components/     # componentes visuais reutilizáveis (TituloPagina)
-│   ├── config/         # conteúdo configurável (rotas.ts)
+│   ├── components/
+│   │   ├── ui/         # Botao, Cartao, Aviso, LinkExterno
+│   │   ├── layout/     # Navbar, Rodape
+│   │   ├── formulario/ # CampoTexto, CampoOpcoes (acessíveis)
+│   │   └── triagem/    # formulário e cartão de resultado da pré-triagem
+│   ├── features/
+│   │   └── triagem/    # datas, validarFormulario, verificarAptidao (+ testes)
+│   ├── config/         # rotas, links oficiais, fontes, criterios da triagem
+│   ├── types/          # tipos compartilhados (triagem)
+│   ├── assets/         # logo
 │   ├── lib/firebase.ts # inicialização do Firebase + emuladores
 │   ├── styles/         # index.css com tokens de design (Tailwind)
 │   ├── main.tsx        # ponto de entrada
 │   └── vite-env.d.ts   # tipos das variáveis de ambiente
+├── public/             # favicon
 ├── tests/              # testes das Security Rules
-├── docs/               # progresso, monografia e apoio ao TCC
+├── docs/               # progresso, monografia, design (referências visuais)
 ├── firebase.json       # Hosting, Firestore e emuladores
 ├── firestore.rules     # regras de segurança (hoje: negar tudo)
 └── firestore.indexes.json
 ```
 
-As pastas `features/`, `services/`, `types/` e `public/` serão criadas quando tiverem conteúdo.
+A pasta `services/` será criada junto com a autenticação.
 
 ### Páginas do site
 
 | Rota | Página | Arquivo |
 |---|---|---|
-| `/` | Informações sobre doação de sangue | `src/pages/InicioPage.tsx` |
-| `/triagem` | Triagem | `src/pages/TriagemPage.tsx` |
+| `/` | Início: apresentação e atalhos para os canais oficiais | `src/pages/InicioPage.tsx` |
+| `/triagem` | Pré-triagem (formulário + resultado) | `src/pages/TriagemPage.tsx` |
 | `/equipe` | Sobre a equipe | `src/pages/EquipePage.tsx` |
 | `/entrar` | Entrar ou cadastrar | `src/pages/EntrarPage.tsx` |
 | `/perfil` | Meu perfil | `src/pages/PerfilPage.tsx` |
 | `/agendamento` | Agendar doação | `src/pages/AgendamentoPage.tsx` |
 | qualquer outra | Página não encontrada | `src/pages/NaoEncontradaPage.tsx` |
 
-Caminhos e títulos ficam em `src/config/rotas.ts`.
+Caminhos, títulos e itens do menu ficam em `src/config/rotas.ts`. Todas as páginas usam o `LayoutPrincipal`.
+
+### Pré-triagem: como funciona
+
+1. O formulário (`FormularioTriagemCampos`) coleta as respostas, que **ficam só no navegador**.
+2. `validarFormulario` confere os campos e converte para `RespostasTriagem`.
+3. `verificarAptidao` aplica os critérios de `src/config/criterios.ts` e devolve resultado, motivos, orientações e a data para refazer.
+4. Cada critério guarda o trecho literal da fonte oficial (FAQ do Ministério da Saúde) e a marcação `revisadoPelaEquipe`.
 
 ## Firebase
 
@@ -240,3 +256,4 @@ Requisitos e modelagem: veja [docs/monografia/](docs/monografia/).
 |---|---|
 | 2026-10-12 | Etapa 0: ambiente, estrutura base, Firebase (`doe-mais-vida`), testes e documentação. |
 | 2026-10-12 | Etapa 1: monografia transcrita (diagramas, dicionário, quadros) e rastreabilidade em `docs/monografia/`. Firestore em São Paulo. |
+| 2026-10-12 | Identidade visual (paleta, Poppins, ícones, logo), layout global e pré-triagem com 37 testes. |

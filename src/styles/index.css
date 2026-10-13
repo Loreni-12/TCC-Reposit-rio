@@ -1,23 +1,39 @@
 @import "tailwindcss";
 
 /*
- * Tokens de design (Tailwind v4: cada --color-* vira utilitário, ex.: bg-primaria).
- * REFERÊNCIA ANTERIOR, NÃO DEFINITIVA: vermelho/branco/preto, estética acolhedora.
- * A identidade visual final será definida na seção "Design" do CLAUDE.md;
- * altere só aqui para mudar o visual sem tocar na lógica.
+ * Tokens de design (Tailwind v4: cada --color-* vira utilitário, ex.: bg-rosa-claro).
+ * Identidade definida pela equipe (docs/design/): paleta, Poppins e ícones de linha.
+ * Proporção: rosa pastel ~70% (fundo), branco ~30% (navbar, rodapé, cartões), vermelho só para destaque.
+ * Contraste: vermelho sobre branco 4,9:1 (texto normal ok); vermelho sobre rosa-claro 3,7:1 (só títulos grandes).
  */
 @theme {
-  --color-primaria: #c8102e;
-  --color-fundo: #ffffff;
-  --color-texto: #111111;
+  --color-vermelho: #e30613;
+  --color-vermelho-escuro: #b8050f; /* derivado do vermelho, só para hover/ativo */
+  --color-rosa: #f7b3c1;
+  --color-rosa-claro: #ffd6de;
+  --color-preto: #000000;
+  --color-branco: #ffffff;
+  --color-cinza: #4a4a4a; /* texto secundário; 7,6:1 sobre rosa-claro */
+
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
+  html {
+    scroll-padding-top: 5rem; /* âncoras não ficam escondidas sob a navbar fixa */
+  }
+
   body {
-    @apply bg-fundo text-texto antialiased;
+    @apply bg-rosa-claro font-sans text-preto antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-semibold;
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-primaria;
+    @apply outline-2 outline-offset-2 outline-vermelho;
   }
 }

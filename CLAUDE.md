@@ -38,15 +38,15 @@ Fluxo de dependência obrigatório: **pages → components → features → serv
 |---|---|
 | `src/app/` | roteador (`router.tsx`), providers, layout global |
 | `src/pages/` | uma página por rota; só UI e composição |
-| `src/components/` | componentes visuais reutilizáveis (sem Firebase) |
-| `src/features/` | lógica por domínio: `triagem/`, `auth/`, `perfil/` (hooks, regras de negócio) — *a criar* |
+| `src/components/` | componentes visuais sem Firebase: `ui/`, `layout/`, `formulario/`, `triagem/` |
+| `src/features/` | lógica por domínio, pura e testada: `triagem/` (datas, validação, verificarAptidao); `auth/` e `perfil/` a criar |
 | `src/services/` | única camada que fala com Firebase — *a criar* |
 | `src/lib/firebase.ts` | inicialização do Firebase + emuladores em dev |
-| `src/config/` | conteúdo configurável: rotas, links oficiais, critérios da triagem, equipe |
-| `src/types/` | tipos compartilhados — *a criar quando houver* |
+| `src/config/` | conteúdo configurável: `rotas`, `links` oficiais, `fontes`, `criterios` da triagem |
+| `src/types/` | tipos compartilhados (`triagem.ts`) |
 | `src/styles/` | tokens de design e CSS global |
 | `tests/` | testes das Security Rules (rodam no emulador) |
-| `public/` | assets estáticos — *a criar quando houver* |
+| `public/` | assets servidos sem processamento (`favicon.png`) |
 | `docs/` | apoio ao TCC: progresso, decisões, monografia |
 
 Não criar pastas/arquivos vazios só para "parecer organizado".
@@ -118,10 +118,10 @@ Se a sessão for interrompida, a próxima começa lendo este arquivo e `docs/PRO
 ## 10. Roteiro das próximas etapas
 
 0. ~~Preparação do ambiente~~ (concluída)
-1. Receber a monografia e montar a rastreabilidade (§11)
-2. Layout global (navbar e rodapé)
+1. ~~Receber a monografia e montar a rastreabilidade (§11)~~ (concluída)
+2. ~~Layout global (navbar e rodapé)~~ (concluído)
 3. Página de informações e tabela de compatibilidade ABO/Rh
-4. Triagem (lógica testada)
+4. ~~Triagem (lógica testada)~~ (formulário e lógica prontos; salvar no perfil depende da autenticação)
 5. Autenticação
 6. Perfil com histórico
 7. Agendamento (links oficiais)
@@ -140,19 +140,19 @@ A monografia será colocada em `docs/monografia/` e contém **diagrama de classe
 3. **Código ilustrativo da monografia deve virar código real e funcional** no projeto (com teste quando houver lógica). Registrar no arquivo de rastreabilidade qual trecho virou qual arquivo, para a equipe poder atualizar o texto da monografia com o código verdadeiro.
 4. **Nada fictício permanece na versão final:** nenhum dado, link, telefone, critério, nome, depoimento ou código "de mentira". Informação ainda não confirmada fica marcada `A VERIFICAR` e entra numa lista de pendências em `docs/PROGRESSO.md`; antes da entrega, `grep` por `A VERIFICAR|PLACEHOLDER|TODO` deve retornar vazio.
 
-## 12. Design (a preencher pela equipe)
+## 12. Design (definido pela equipe em 2026-10-12)
 
-Tokens ficam em `src/styles/index.css` (`@theme` do Tailwind v4) — mude o visual ali, sem tocar na lógica.
+Tokens ficam em `src/styles/index.css` (`@theme` do Tailwind v4): mude o visual ali, sem tocar na lógica. As referências estão em `docs/design/` (logo original, paleta, tipografia e ícones).
 
-- **Referência anterior (não definitiva):** paleta vermelho/branco/preto, estética acolhedora.
-- **Paleta:** _a definir_
-- **Tipografia:** _a definir_
-- **Espaçamento:** _a definir_
-- **Bordas:** _a definir_
-- **Sombras:** _a definir_
-- **Componentes:** _a definir_
-- **Comportamento mobile:** mobile-first; _detalhes a definir_
-- **Referências:** _a definir_
+- **Princípio:** simples e acolhedor. **Proibido:** navbar translúcida/blur, brilhos, neon, gradientes chamativos, animações exageradas, sombras pesadas e qualquer coisa com cara de "gerado por IA".
+- **Paleta:** `#E30613` vermelho (destaques, botões, títulos) · `#F7B3C1` rosa (bordas) · `#FFD6DE` rosa pastel (**fundo, ~70%**) · `#FFFFFF` branco (**navbar, rodapé, cartões, ~30%**) · `#000000` texto. Derivados: `vermelho-escuro` (só hover) e `cinza #4A4A4A` (texto secundário).
+- **Contraste:** vermelho sobre rosa pastel = 3,7:1, então **só em títulos grandes**. Texto normal vermelho somente sobre branco (4,9:1).
+- **Tipografia:** Poppins SemiBold (600) nos títulos, Regular (400) nos textos. Auto-hospedada via `@fontsource/poppins`, sem requisição ao Google (LGPD).
+- **Ícones:** `lucide-react`, traço fino, sempre em vermelho e com `aria-hidden` quando decorativos.
+- **Bordas e sombras:** `rounded-xl` em cartões, `rounded-lg` em botões e campos, borda de 1px `rosa` e nenhuma sombra.
+- **Componentes base:** `Cartao`, `Botao`/`LinkBotao`, `Aviso`, `LinkExterno`, `CampoTexto`, `CampoOpcoes`, `TituloPagina`, `Navbar`, `Rodape`.
+- **Mobile:** mobile-first. Na navbar, o menu vira um botão hambúrguer abaixo de 768px (`md`).
+- **Logo:** `src/assets/logo.png` (recortado do original). Favicon em `public/favicon.png`.
 
 ## 13. Comandos
 

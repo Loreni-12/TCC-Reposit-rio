@@ -7,11 +7,27 @@
 - [x] Decisões C1–C5 tomadas (ver `docs/monografia/rastreabilidade.md` §4).
 - [ ] Salvar o PDF da monografia em `docs/monografia/` (recebido só pelo chat).
 - [ ] Equipe ajustar o texto da monografia (`rastreabilidade.md` §5).
-- [ ] Definir identidade visual (CLAUDE.md §12). O protótipo da Figura 3 serve de referência.
+- [x] Identidade visual definida (CLAUDE.md §12).
+- [ ] **Equipe revisar os critérios** em `src/config/criterios.ts` (comparar `trechoFonte` com a fonte; marcar `revisadoPelaEquipe: true`). Ponto de dúvida: primeira doação "até 60 anos" ou "antes dos 60".
+- [ ] Equipe conferir manualmente a página de requisitos do HEMOSC e dizer se algum critério deve entrar.
+- [ ] Testar a pré-triagem num celular de verdade (as capturas automáticas não chegam a 390 px).
 - [ ] Criar remoto no GitHub e fazer o primeiro push (somente com confirmação).
 - [ ] Projeto antigo `doemaisvidadb` não é mais usado — decidir se mantém ou exclui (pelo console; nada foi alterado nele).
 
-## 2026-10-12 — Etapa 1: monografia recebida (em andamento)
+## 2026-10-12 — Identidade visual, layout global e pré-triagem
+
+**Feito**
+- Paleta (rosa pastel ~70%, branco ~30%, vermelho para destaque), Poppins auto-hospedada, ícones lucide, logo recortado + favicon. Referências em `docs/design/`.
+- Navbar branca e sólida, com menu hambúrguer no celular. Rodapé com aviso de site não oficial, fontes e créditos. Link "pular para o conteúdo".
+- Início com apresentação e atalhos para o HEMOSC (links conferidos).
+- Pré-triagem completa: 15 critérios (13 impedimentos + 2 orientações) com trecho literal da FAQ do MS, validação, resultado em 3 níveis, orientações e data para refazer. Nada é salvo.
+- Dependências novas: `@fontsource/poppins` (fonte sem requisição ao Google) e `lucide-react` (ícones).
+
+**Verificação:** lint ✔ · typecheck ✔ · build ✔ · test 37/37 ✔ · capturas em 1280px e 600px conferidas.
+
+**Próximo passo:** autenticação (login/cadastro) → salvar o resultado no perfil.
+
+## 2026-10-12 — Etapa 1: monografia recebida (concluída)
 
 **Feito**
 - Firestore criado pela equipe em `southamerica-east1`, em modo de produção. Auth com e-mail/senha e Google ativos.

@@ -9,11 +9,11 @@
 |---|---|---|
 | UC1 Consultar informações sobre doação | rota `/` + `src/config/informacoes.ts` (conteúdo com fonte) | ⏳ |
 | UC2 Consultar critérios para doação | seção de critérios lida de `src/config/criterios.ts` (mesma fonte da triagem) | ⏳ |
-| UC3 Realizar questionário de triagem online | rota `/triagem` + `src/features/triagem/` | ⏳ |
-| UC4 Responder o questionário (include) | formulário acessível em `src/pages/TriagemPage.tsx` | ⏳ |
-| UC5 Verificar aptidão (include) | `verificarAptidao()` em `src/features/triagem/`, com testes | ⏳ |
-| UC6 Consultar resultado (include) | tela de resultado + histórico em `/perfil` | ⏳ |
-| UC7 Receber orientação (extend) | orientações por motivo, vindas de `criterios.ts` | ⏳ |
+| UC3 Realizar questionário de triagem online | rota `/triagem` (`TriagemPage`) | ✅ |
+| UC4 Responder o questionário (include) | `components/triagem/FormularioTriagemCampos.tsx` + `features/triagem/validarFormulario.ts` | ✅ |
+| UC5 Verificar aptidão (include) | `features/triagem/verificarAptidao.ts` (24 testes) | ✅ |
+| UC6 Consultar resultado (include) | `components/triagem/ResultadoTriagemCartao.tsx` ✅ · histórico em `/perfil` ⏳ (depende do login) | 🔧 |
+| UC7 Receber orientação (extend) | orientação + fonte por motivo, vindas de `config/criterios.ts` | ✅ |
 | UC8 Agendar doação (extend UC5) | rota `/agendamento`: planejar data + link oficial (C1) | ⏳ |
 
 ## 2. Classes → código
@@ -38,8 +38,14 @@ Multiplicidade: o diagrama mostra Usuario **1—1** QuestionarioTriagem, mas o t
 | Quadro | Código real | Status |
 |---|---|---|
 | Q1 cadastrar/entrar | `src/services/auth.ts` (mesmas funções do Firebase, tipadas, com mensagens de erro em português) + Google | ⏳ |
-| Q2 verificarTriagem | `src/features/triagem/verificarAptidao.ts`: lê os critérios de `criterios.ts` em vez de números fixos e não manipula o DOM | ⏳ |
+| Q2 verificarTriagem | `src/features/triagem/verificarAptidao.ts`: limites vindos de `config/criterios.ts` (`PARAMETROS`), sem manipular o DOM. Diferença em relação ao Quadro 2: a idade mínima é 16 (o quadro usa `idade < 16`, o que bate) e o resultado tem 3 níveis com data para refazer. | ✅ |
 | Q3 agendar | `src/services/agendamentos.ts`: `addDoc(collection(db, "users", uid, "agendamentos"), {...})` com status `planejado` (C1) | ⏳ |
+
+### Critérios da versão 2026-10-12.1
+
+Fonte: FAQ do Ministério da Saúde (atualizada em 14/06/2023, consultada em 12/10/2026). Cada critério guarda o trecho literal da fonte em `src/config/criterios.ts`. Todos estão com `revisadoPelaEquipe: false` até a equipe conferir.
+
+**Ficaram de fora** porque não aparecem nas fontes lidas: bebida alcoólica, HIV/HTLV/Chagas, pós-parto sem amamentação, vacinas e cirurgias. A página de requisitos do HEMOSC carrega o conteúdo de um jeito que não deu para ler automaticamente, então a equipe deve conferi-la manualmente.
 
 ## 4. Conflitos com as restrições do projeto (precisam de decisão)
 
