@@ -11,11 +11,19 @@
 - [ ] **Equipe revisar os critérios** em `src/config/criterios.ts` (comparar `trechoFonte` com a fonte; marcar `revisadoPelaEquipe: true`). Ponto de dúvida: primeira doação "até 60 anos" ou "antes dos 60".
 - [ ] Equipe conferir manualmente a página de requisitos do HEMOSC e dizer se algum critério deve entrar.
 - [ ] Testar num celular de verdade (o teste automatizado já emula 390 px e mostrou que nada estoura a largura).
-- [ ] **Publicar as regras do Firestore** (`firebase deploy --only firestore:rules`). Sem isso, o cadastro no projeto real cria a conta, mas não salva o perfil. **Aguardando confirmação.**
+- [x] Regras do Firestore publicadas e site no ar em https://doe-mais-vida.web.app (2026-10-12).
 - [ ] Fotos e minibiografias da equipe (opcional; hoje aparecem as iniciais).
 - [ ] Decidir se `/perfil` continua como página ou vira parte do pop-up.
-- [ ] Criar remoto no GitHub e fazer o primeiro push (somente com confirmação).
+- [ ] **GitHub:** enviar para o repositório que começa com "tcc" (aguardando `gh auth login`).
+- [ ] Máscaras de entrada (telefone) e toast de feedback: citados na lista do professor e ainda não implementados.
 - [ ] Projeto antigo `doemaisvidadb` não é mais usado — decidir se mantém ou exclui (pelo console; nada foi alterado nele).
+
+## 2026-10-12 — Site no ar, rodapé e PDF
+
+**Feito**
+- Deploy do Hosting e das regras do Firestore: https://doe-mais-vida.web.app. Conferido no navegador: rotas respondem 200, o Auth real responde ao login e o rodapé mostra o aviso de direitos autorais.
+- Erro "sem conexão" no cadastro: a causa era `VITE_USE_EMULATORS=true` sem os emuladores rodando. O padrão agora é `false`, e a mensagem explica o problema quando acontece.
+- PDF `docs/apresentacao/conceitos-frontend.pdf` (2 páginas, 12 tópicos).
 
 ## 2026-10-12 — Página única, visual fluido e conta em pop-up
 

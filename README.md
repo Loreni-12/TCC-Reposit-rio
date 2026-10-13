@@ -2,6 +2,8 @@
 
 Portal web informativo e motivacional sobre doação de sangue, com pré-triagem online **não oficial** e área do usuário. Trabalho de Conclusão de Curso do curso técnico integrado ao ensino médio em Desenvolvimento de Sistemas. Região de referência: Blumenau, SC.
 
+> **No ar:** https://doe-mais-vida.web.app
+>
 > **Estado atual:** site em página única (abertura, requisitos, agendamento e equipe), pré-triagem em página própria e conta (entrar/cadastrar) em pop-up. Histórico de pré-triagens no perfil ainda não implementado.
 
 ## Objetivo
@@ -264,3 +266,4 @@ Requisitos e modelagem: veja [docs/monografia/](docs/monografia/).
 | 2026-10-12 | Etapa 1: monografia transcrita (diagramas, dicionário, quadros) e rastreabilidade em `docs/monografia/`. Firestore em São Paulo. |
 | 2026-10-12 | Identidade visual (paleta, Poppins, ícones, logo), layout global e pré-triagem com 37 testes. |
 | 2026-10-12 | Página única com seções fluidas, equipe (TAP), cadastro em pop-up (Firebase Auth + perfil), regras de `users/{uid}` com testes, Firebase carregado sob demanda (Firestore Lite). |
+| 2026-10-12 | Primeiro deploy (https://doe-mais-vida.web.app), rodapé com direitos autorais, PDF de conceitos em `docs/apresentacao/`. |
