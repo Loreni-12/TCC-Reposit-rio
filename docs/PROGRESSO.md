@@ -4,12 +4,22 @@
 
 ## Pendências abertas
 
-- [ ] **Console Firebase — Firestore:** criar o banco (Firestore Database → Criar banco → edição Standard, modo de produção, local `nam5`). A API não estava ativa no projeto novo, por isso não foi criado pelo CLI.
-- [ ] **Console Firebase — Authentication:** Começar → ativar provedores **E-mail/senha** e **Google**.
-- [ ] Receber a monografia em `docs/monografia/` e montar a rastreabilidade.
-- [ ] Definir identidade visual (CLAUDE.md §12).
+- [ ] **Decisões sobre os conflitos C1–C5** da monografia (`docs/monografia/rastreabilidade.md` §4). Bloqueiam a implementação.
+- [ ] Salvar o PDF da monografia em `docs/monografia/` (recebido só pelo chat).
+- [ ] Equipe ajustar o texto da monografia (`rastreabilidade.md` §5).
+- [ ] Definir identidade visual (CLAUDE.md §12). O protótipo da Figura 3 serve de referência.
 - [ ] Criar remoto no GitHub e fazer o primeiro push (somente com confirmação).
 - [ ] Projeto antigo `doemaisvidadb` não é mais usado — decidir se mantém ou exclui (pelo console; nada foi alterado nele).
+
+## 2026-10-12 — Etapa 1: monografia recebida (em andamento)
+
+**Feito**
+- Firestore criado pela equipe em `southamerica-east1`, em modo de produção. Auth com e-mail/senha e Google ativos.
+- Autor do Git corrigido para Eduardo Loreni Kfassniak (config global).
+- Monografia transcrita em `docs/monografia/modelo-monografia.md` (diagramas em Mermaid, dicionário de dados, quadros de código).
+- Rastreabilidade em `docs/monografia/rastreabilidade.md`: casos de uso e classes ligados a arquivos, 5 conflitos (C1–C5) e lista de afirmações do texto que não batem com o sistema.
+
+**Próximo passo:** com as decisões da equipe, implementar o layout global e as features na ordem do roteiro.
 
 ## 2026-10-12 — Etapa 0: preparação do ambiente (concluída)
 

@@ -93,7 +93,7 @@ Caminhos e títulos ficam em `src/config/rotas.ts`.
 
 - **Projeto:** `doe-mais-vida`, no plano **Spark** (gratuito). Não usamos nada que exija o plano Blaze: Cloud Functions, Cloud Storage e App Hosting estão fora.
 - **Authentication:** e-mail/senha e Google.
-- **Cloud Firestore:** edição Standard, região `nam5`.
+- **Cloud Firestore:** edição Standard, região `southamerica-east1` (São Paulo).
 - **Security Rules:** hoje negam todo acesso. Quando a autenticação for implementada, cada usuário poderá ler e escrever **somente os próprios dados**. Toda mudança de regra vem acompanhada de teste.
 - **Hosting:** serve a pasta `dist/` e redireciona todas as rotas para `index.html`. Endereço: `https://doe-mais-vida.web.app`.
 - **Emuladores:** versões locais de Auth, Firestore e Hosting para desenvolver e testar sem tocar no projeto real.
@@ -211,7 +211,18 @@ Links e contatos oficiais serão centralizados em `src/config/` e marcados como 
 
 ## Equipe
 
-_A preencher._
+CEDUP Hermann Hering, Blumenau/SC, turma 302 (2026).
+
+| Integrante | Função |
+|---|---|
+| Ana Paula Pachuczki Ottequir | Front-end |
+| Eduardo Loreni Kfassniak | Back-end |
+| Milena Vitória Mognon | Full-stack |
+| Thaís Fernanda Cruz | Front-end |
+
+Orientador: Prof. Luis Renato. Professores: Oscar Stefen Junior (Projeto de Software) e Emanuel Spanhol (Desenvolvimento de Sistemas Web 4).
+
+Requisitos e modelagem: veja [docs/monografia/](docs/monografia/).
 
 ## Solução de problemas
 
@@ -228,3 +239,4 @@ _A preencher._
 | Data | Alteração |
 |---|---|
 | 2026-10-12 | Etapa 0: ambiente, estrutura base, Firebase (`doe-mais-vida`), testes e documentação. |
+| 2026-10-12 | Etapa 1: monografia transcrita (diagramas, dicionário, quadros) e rastreabilidade em `docs/monografia/`. Firestore em São Paulo. |

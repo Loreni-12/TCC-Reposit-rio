@@ -54,8 +54,8 @@ Não criar pastas/arquivos vazios só para "parecer organizado".
 ## 5. Firebase
 
 - **Projeto:** `doe-mais-vida` · **Plano:** Spark (gratuito) — **nunca fazer upgrade**.
-- **Auth:** provedores E-mail/Senha e Google (ativar no console).
-- **Firestore:** edição Standard, região `nam5`. Modelo **proposto, a confirmar**:
+- **Auth:** provedores E-mail/Senha e Google (ativos).
+- **Firestore:** edição Standard, região `southamerica-east1` (São Paulo). Modelo **proposto, a confirmar**:
   ```
   users/{uid}
     nome, email, criadoEm, consentimentoLgpdEm
